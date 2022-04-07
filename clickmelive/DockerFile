@@ -1,0 +1,17 @@
+FROM node:16.13.2
+USER root
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+WORKDIR /opt/app-root/mercan-core
+
+COPY . ./
+
+RUN chgrp -R 0 ./ \
+  && chmod -R g=u ./ \
+  && chmod +x ./docker-entrypoint.sh \
+  && npm install
+
+USER 1001
+EXPOSE 8087
+
+CMD ["./docker-entrypoint.sh"]
